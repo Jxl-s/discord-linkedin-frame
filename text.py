@@ -11,20 +11,20 @@ def apply_arc_text(
     font_size: int = 85,
     radius: int = 333,
     center=None,
-    letter_spacing: int = 10.5,
-    radius_offset: int = 0,
-    start_angle_deg: float = 180.0,
+    letter_spacing: float = 10.5,
+    radius_offset: int = 2,
+    center_angle_deg: float = 123.0,
     clockwise: bool = True,
     rotation_deg: float = 0.0,
 ) -> Image.Image:
     """
-    Render text along a circular arc, matching the browser SVG layout.
+    Render text along a circular arc.
 
     Angle convention: 0° = right, 90° = down (screen/Y-down), 180° = left, 270° = up.
-    start_angle_deg=180, clockwise=True reproduces the SVG path that starts at the
-    left side and curves through the bottom — matching the LinkedIn frame layout.
-    rotation_deg shifts the whole arc around the center (like SVG fontRotation).
-    radius_offset shifts characters outward (+) or inward (-) from the arc circle.
+    center_angle_deg: angle where the text block is centered on the arc (135 = bottom-left).
+    clockwise: direction of text travel on screen.
+    rotation_deg: additional rotation of the entire arc around the center.
+    radius_offset: shifts characters outward (+) or inward (-) from the arc circle.
     """
     img = image.convert("RGBA")
     w, h = img.size
@@ -37,12 +37,14 @@ def apply_arc_text(
     # Visual clockwise on screen (Y-down) = decreasing angle in math convention
     direction = -1 if clockwise else 1
 
-    # Apply arc rotation: shift start_angle by rotation_deg in the travel direction
-    effective_start = start_angle_deg + rotation_deg
-    start_rad = math.radians(effective_start)
-
     # Use advance width (getlength) so spacing matches SVG text advancement
     char_widths = [font.getlength(ch) for ch in text]
+
+    # Compute start angle so the text block is centered at center_angle_deg
+    total_width = sum(char_widths) + letter_spacing * max(len(text) - 1, 0)
+    total_arc_rad = total_width / radius
+    center_rad = math.radians(center_angle_deg + rotation_deg)
+    start_rad = center_rad - direction * total_arc_rad / 2
 
     text_layer = Image.new("RGBA", img.size, (0, 0, 0, 0))
 

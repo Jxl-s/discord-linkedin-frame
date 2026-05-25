@@ -4,7 +4,7 @@ from text import apply_arc_text
 
 img = Image.open("assets/sample.webp")
 framed = apply_frame(img, (88, 101, 242))
-result = apply_arc_text(framed, "#OPENTOWORK")
+result = apply_arc_text(framed, "#LARPING")
 result.save("assets/output_text.png")
 print("Saved assets/output_text.png")
 
