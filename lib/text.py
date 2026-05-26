@@ -11,7 +11,7 @@ def apply_arc_text(
     font_size: int = 85,
     radius: int = 333,
     center=None,
-    letter_spacing: float = 10.5,
+    letter_spacing: float = 10,
     radius_offset: int = 2,
     center_angle_deg: float = 123.0,
     clockwise: bool = True,
