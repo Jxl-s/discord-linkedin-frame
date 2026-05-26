@@ -9,6 +9,7 @@ from lib.process import process_avatar
 load_dotenv()
 TOKEN = os.environ["DISCORD_TOKEN"]
 LINKEDIN_GREEN = (69, 112, 50)  # #457032
+WEBSITE_URL = "https://jxl-s.github.io/linkedin-frame/"
 
 intents = discord.Intents.default()
 client = discord.Client(intents=intents)
@@ -68,7 +69,10 @@ async def frame_command(interaction: discord.Interaction, user: discord.User, co
         await interaction.followup.send("Failed to apply frame. The image may be unsupported or corrupted.")
         return
 
-    await interaction.followup.send(file=discord.File(io.BytesIO(data), filename=f"frame.{ext}"))
+    await interaction.followup.send(
+        content=f"-# Also available as a web app: {WEBSITE_URL}",
+        file=discord.File(io.BytesIO(data), filename=f"frame.{ext}"),
+    )
     print(f"[frame-custom] done → {ext}")
 
 
@@ -93,7 +97,10 @@ async def opentowork_command(interaction: discord.Interaction, user: discord.Use
         await interaction.followup.send("Failed to apply frame. The image may be unsupported or corrupted.")
         return
 
-    await interaction.followup.send(file=discord.File(io.BytesIO(data), filename=f"opentowork.{ext}"))
+    await interaction.followup.send(
+        content=f"-# Also available as a web app: {WEBSITE_URL}",
+        file=discord.File(io.BytesIO(data), filename=f"opentowork.{ext}"),
+    )
     print(f"[frame-opentowork] done → {ext}")
 
 

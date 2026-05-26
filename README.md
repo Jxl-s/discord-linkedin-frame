@@ -8,9 +8,9 @@ Supports both static images and animated GIFs.
 
 ## Web app
 
-Open `index.html` (or the GitHub Pages URL) in a browser, upload any image or GIF, pick a color and arc text, and download the result. No Discord account required.
+**https://jxl-s.github.io/linkedin-frame/**
 
-To host on GitHub Pages: repo **Settings → Pages → Deploy from branch → `main` / `/ (root)`**.
+Upload any image or GIF, pick a color and arc text, and download the result. No Discord account required.
 
 ## Discord bot
 
