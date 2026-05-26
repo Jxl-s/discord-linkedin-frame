@@ -4,3 +4,13 @@ services:
     environment:
       - DISCORD_TOKEN=${DISCORD_TOKEN}
     restart: unless-stopped
+
+  web:
+    image: nginx:alpine
+    ports:
+      - "8080:80"
+    volumes:
+      - ./index.html:/usr/share/nginx/html/index.html:ro
+      - ./assets:/usr/share/nginx/html/assets:ro
+      - ./js:/usr/share/nginx/html/js:ro
+    restart: unless-stopped

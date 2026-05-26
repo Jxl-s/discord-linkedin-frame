@@ -46,11 +46,7 @@ DISCORD_TOKEN=your_bot_token_here
 docker compose up -d
 ```
 
-Or with `docker run`:
-```bash
-docker build -t discord-linkedin-frame .
-docker run -d --restart unless-stopped -e DISCORD_TOKEN=your_bot_token_here discord-linkedin-frame
-```
+This starts both the Discord bot and an nginx web server for the web app on port `8080`.
 
 #### Manual
 
