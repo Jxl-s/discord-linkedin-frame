@@ -3,6 +3,8 @@ from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
 
 FONT_PATH = Path(__file__).parent.parent / "assets" / "Carlito-Bold.ttf"
+if not FONT_PATH.exists():
+    raise FileNotFoundError(f"Required asset not found: {FONT_PATH}")
 
 def apply_arc_text(
     image: Image.Image,

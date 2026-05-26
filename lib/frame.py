@@ -3,6 +3,8 @@ from PIL import Image
 import numpy as np
 
 ALPHA_PATH = Path(__file__).parent.parent / "assets" / "alpha.png"
+if not ALPHA_PATH.exists():
+    raise FileNotFoundError(f"Required asset not found: {ALPHA_PATH}")
 
 
 def apply_frame(image: Image.Image, color: tuple[int, int, int]) -> Image.Image:

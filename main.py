@@ -17,6 +17,8 @@ tree = app_commands.CommandTree(client)
 
 def parse_color(hex_color: str) -> tuple[int, int, int]:
     hex_color = hex_color.lstrip("#")
+    if len(hex_color) != 6:
+        raise ValueError(f"Expected 6 hex digits, got {len(hex_color)}")
     return int(hex_color[0:2], 16), int(hex_color[2:4], 16), int(hex_color[4:6], 16)
 
 
@@ -28,7 +30,10 @@ async def fetch_avatar(user: discord.User) -> bytes:
 
 @client.event
 async def on_ready():
-    await tree.sync()
+    try:
+        await tree.sync()
+    except Exception as e:
+        print(f"Failed to sync command tree: {e}")
     print(f"Logged in as {client.user}")
 
 
@@ -50,7 +55,19 @@ async def frame_command(interaction: discord.Interaction, user: discord.User, co
         await interaction.followup.send("Invalid color. Use a hex code like `#5865F2`.")
         return
 
-    data, ext = process_avatar(await fetch_avatar(user), color_rgb, text)
+    try:
+        avatar_bytes = await fetch_avatar(user)
+    except discord.HTTPException as e:
+        await interaction.followup.send(f"Could not fetch avatar for {user.mention}: {e}")
+        return
+
+    try:
+        data, ext = process_avatar(avatar_bytes, color_rgb, text)
+    except Exception as e:
+        print(f"[frame-custom] processing error: {e}")
+        await interaction.followup.send("Failed to apply frame. The image may be unsupported or corrupted.")
+        return
+
     await interaction.followup.send(file=discord.File(io.BytesIO(data), filename=f"frame.{ext}"))
     print(f"[frame-custom] done → {ext}")
 
@@ -63,7 +80,19 @@ async def opentowork_command(interaction: discord.Interaction, user: discord.Use
     await interaction.response.defer()
     print(f"[frame-opentowork] {interaction.user} → target={user}")
 
-    data, ext = process_avatar(await fetch_avatar(user), LINKEDIN_GREEN, "#OPENTOWORK")
+    try:
+        avatar_bytes = await fetch_avatar(user)
+    except discord.HTTPException as e:
+        await interaction.followup.send(f"Could not fetch avatar for {user.mention}: {e}")
+        return
+
+    try:
+        data, ext = process_avatar(avatar_bytes, LINKEDIN_GREEN, "#OPENTOWORK")
+    except Exception as e:
+        print(f"[frame-opentowork] processing error: {e}")
+        await interaction.followup.send("Failed to apply frame. The image may be unsupported or corrupted.")
+        return
+
     await interaction.followup.send(file=discord.File(io.BytesIO(data), filename=f"opentowork.{ext}"))
     print(f"[frame-opentowork] done → {ext}")
 

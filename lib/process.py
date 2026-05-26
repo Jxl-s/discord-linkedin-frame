@@ -33,6 +33,9 @@ def process_avatar(avatar_bytes: bytes, color: tuple, text: str) -> tuple[bytes,
         rgb = Image.alpha_composite(bg, processed).convert("RGB")
         frames.append(rgb.quantize(colors=256))
 
+    if not frames:
+        raise ValueError("GIF contained no frames")
+
     buf = io.BytesIO()
     frames[0].save(
         buf,
