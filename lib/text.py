@@ -2,7 +2,7 @@ import math
 from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
 
-FONT_PATH = Path(__file__).parent / "assets" / "Carlito-Bold.ttf"
+FONT_PATH = Path(__file__).parent.parent / "assets" / "Carlito-Bold.ttf"
 
 def apply_arc_text(
     image: Image.Image,

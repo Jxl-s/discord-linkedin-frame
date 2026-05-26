@@ -1,4 +1,5 @@
 .venv/
+.env
 assets/output*.png
 __pycache__/
 *.pyc

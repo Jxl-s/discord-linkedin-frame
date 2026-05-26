@@ -2,7 +2,7 @@ from pathlib import Path
 from PIL import Image
 import numpy as np
 
-ALPHA_PATH = Path(__file__).parent / "assets" / "alpha.png"
+ALPHA_PATH = Path(__file__).parent.parent / "assets" / "alpha.png"
 
 
 def apply_frame(image: Image.Image, color: tuple[int, int, int]) -> Image.Image:
