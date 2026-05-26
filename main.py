@@ -32,7 +32,7 @@ async def on_ready():
     print(f"Logged in as {client.user}")
 
 
-@tree.command(name="frame", description="Apply a custom frame to a user's profile picture")
+@tree.command(name="frame-custom", description="Apply a custom frame to a user's profile picture")
 @app_commands.describe(
     user="The user whose profile picture to use",
     color="Frame color as a hex code (e.g. #5865F2)",
@@ -51,7 +51,7 @@ async def frame_command(interaction: discord.Interaction, user: discord.Member, 
     await interaction.followup.send(file=discord.File(io.BytesIO(data), filename=f"frame.{ext}"))
 
 
-@tree.command(name="opentowork", description="Add the #OPENTOWORK LinkedIn frame to a user's profile picture")
+@tree.command(name="frame-opentowork", description="Add the #OPENTOWORK LinkedIn frame to a user's profile picture")
 @app_commands.describe(user="The user whose profile picture to use")
 async def opentowork_command(interaction: discord.Interaction, user: discord.Member):
     await interaction.response.defer()
