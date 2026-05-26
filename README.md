@@ -1,12 +1,22 @@
 # discord-linkedin-frame
 
-A Discord app that applies LinkedIn-style circular frames with arc text to user profile pictures. Supports both static images and animated GIFs.
+Apply LinkedIn-style circular frames with custom arc text to profile pictures — as a **Discord bot** and as a **browser-based web app** (hosted on GitHub Pages).
 
-<img src=".github/images/example.webp" width="300"/>
+Supports both static images and animated GIFs.
 
-## Commands
+<img src=".github/images/example.webp" width="300"/> <img src=".github/images/example2.webp" width="300"/>
 
-### `/frame-custom`
+## Web app
+
+Open `index.html` (or the GitHub Pages URL) in a browser, upload any image or GIF, pick a color and arc text, and download the result. No Discord account required.
+
+To host on GitHub Pages: repo **Settings → Pages → Deploy from branch → `main` / `/ (root)`**.
+
+## Discord bot
+
+### Commands
+
+#### `/frame-custom`
 Apply a custom-colored frame with custom arc text to a user's profile picture.
 
 | Parameter | Description |
@@ -15,16 +25,16 @@ Apply a custom-colored frame with custom arc text to a user's profile picture.
 | `color` | Frame color as a hex code (e.g. `#5865F2`) |
 | `text` | Text to display on the arc |
 
-### `/frame-opentowork`
+#### `/frame-opentowork`
 Apply the LinkedIn `#OPENTOWORK` frame (green, `#457032`) to a user's profile picture.
 
 | Parameter | Description |
 |-----------|-------------|
 | `user` | The Discord member whose profile picture to use |
 
-## Setup
+### Setup
 
-### Docker (recommended)
+#### Docker (recommended)
 
 **1. Create a `.env` file:**
 ```
@@ -42,7 +52,7 @@ docker build -t discord-linkedin-frame .
 docker run -d --restart unless-stopped -e DISCORD_TOKEN=your_bot_token_here discord-linkedin-frame
 ```
 
-### Manual
+#### Manual
 
 **1. Install dependencies**
 ```bash
@@ -67,12 +77,16 @@ Slash commands are synced globally on startup.
 ## Project structure
 
 ```
-main.py           # Bot entry point and slash commands
+main.py           # Discord bot entry point and slash commands
 lib/
   frame.py        # Applies colored ring frame using assets/alpha.png
   text.py         # Renders text along a circular arc
-  process.py      # Combines frame + text, handles static and animated avatars
+  process.py      # Combines frame + text, handles static and animated GIFs
 assets/
-  alpha.png       # Frame alpha mask (red channel = opacity)
+  alpha.png       # Frame alpha mask (grayscale: white = frame, black = avatar)
   Carlito-Bold.ttf
+index.html        # Web app
+js/
+  app.js          # Web app logic (mirrors lib/ in the browser)
+  vendor/         # gif.js, gif.worker.js, omggif.js
 ```
